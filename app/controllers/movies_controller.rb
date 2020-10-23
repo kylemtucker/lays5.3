@@ -11,10 +11,15 @@ class MoviesController < ApplicationController
     # Get all movies, get all ratings, get desired ratings
     @movies = Movie.all
     @all_ratings = Movie.all_ratings
-    @desired_ratings = params[:ratings] || {}
+    @ratings_to_show = params[:ratings] || {}
     
-    # Select movies with desired ratings
-    @movies = Movie.where(:rating => (@desired_ratings.keys))
+    # Check if selected ratings is empty
+    if @ratings_to_show == {}
+      @ratings_to_show = @all_ratings
+    end
+    
+    # Display selected ratings
+    @movies = Movie.where(:rating => (@ratings_to_show.keys))
   end
 
   def new
